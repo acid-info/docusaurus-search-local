@@ -6,7 +6,6 @@ module.exports = {
 
     // Also consider monorepo packages "root" and load their .babelrc files.
     "./docusaurus-search-local",
-    "./website",
   ],
   env: {
     test: {

@@ -1,9 +1,9 @@
-import { SearchDocument, SearchResult } from "../../../shared/interfaces";
-import { concatDocumentPath } from "../../utils/concatDocumentPath";
-import { getStemmedPositions } from "../../utils/getStemmedPositions";
-import { highlight } from "../../utils/highlight";
-import { highlightStemmed } from "../../utils/highlightStemmed";
-import { explicitSearchResultPath } from "../../utils/proxiedGenerated";
+import { SearchDocument, SearchResult } from "../../shared/interfaces";
+import { concatDocumentPath } from "../utils/concatDocumentPath";
+import { getStemmedPositions } from "../utils/getStemmedPositions";
+import { highlight } from "../utils/highlight";
+import { highlightStemmed } from "../utils/highlightStemmed";
+import { explicitSearchResultPath } from "../utils/proxiedGenerated";
 import {
   iconAction,
   iconContent,
@@ -12,7 +12,16 @@ import {
   iconTreeInter,
   iconTreeLast,
 } from "./icons";
-import styles from "./SearchBar.module.css";
+// import styles from "./SearchBar.module.css";
+
+const styles = {
+  hitTree: "hit--tree",
+  hitIcon: "hit--icon",
+  hitTitle: "hit--title",
+  hitPath: "hit--path",
+  hitAction: "hit--action",
+  hitWrapper: "hit--wrapper",
+};
 
 export function SuggestionTemplate({
   document,

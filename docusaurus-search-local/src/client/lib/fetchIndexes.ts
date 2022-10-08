@@ -3,8 +3,8 @@ import {
   SearchDocument,
   SearchDocumentType,
   WrappedIndex,
-} from "../../../shared/interfaces";
-import { searchIndexUrl } from "../../utils/proxiedGenerated";
+} from "../../shared/interfaces";
+import { searchIndexUrl } from "../utils/proxiedGenerated";
 
 interface SerializedIndex {
   documents: SearchDocument[];
@@ -17,7 +17,7 @@ export async function fetchIndexes(baseUrl: string): Promise<{
   wrappedIndexes: WrappedIndex[];
   zhDictionary: string[];
 }> {
-  if (process.env.NODE_ENV === "production") {
+  try {
     const json = (await (
       await fetch(`${baseUrl}${searchIndexUrl}`)
     ).json()) as SerializedIndex[];
@@ -43,11 +43,13 @@ export async function fetchIndexes(baseUrl: string): Promise<{
       wrappedIndexes,
       zhDictionary: Array.from(zhDictionary),
     };
-  }
+  } catch (error) {
+    console.log(error);
 
-  // The index does not exist in development, therefore load a dummy index here.
-  return {
-    wrappedIndexes: [],
-    zhDictionary: [],
-  };
+    // return dummy index if index file isn't available.
+    return {
+      wrappedIndexes: [],
+      zhDictionary: [],
+    };
+  }
 }

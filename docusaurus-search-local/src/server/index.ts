@@ -1,11 +1,10 @@
-import path from "path";
-import fs from "fs-extra";
-import { normalizeUrl } from "@docusaurus/utils";
 import { codeTranslationLocalesToTry } from "@docusaurus/theme-translations";
+import fs from "fs-extra";
+import path from "path";
 import { DocusaurusContext, PluginOptions } from "../shared/interfaces";
-import { processPluginOptions } from "./utils/processPluginOptions";
-import { postBuildFactory } from "./utils/postBuildFactory";
 import { generate } from "./utils/generate";
+import { postBuildFactory } from "./utils/postBuildFactory";
+import { processPluginOptions } from "./utils/processPluginOptions";
 
 const PLUGIN_NAME = "@easyops-cn/docusaurus-search-local";
 
@@ -20,7 +19,6 @@ export default function DocusaurusSearchLocalPlugin(
   const searchIndexFilename = generate(config, dir);
 
   const themePath = path.resolve(__dirname, "../../client/client/theme");
-  const pagePath = path.join(themePath, "SearchPage/index.js");
 
   return {
     name: PLUGIN_NAME,
@@ -31,8 +29,8 @@ export default function DocusaurusSearchLocalPlugin(
 
     postBuild: postBuildFactory(config, searchIndexFilename),
 
-    getPathsToWatch() {
-      return [pagePath];
+    getClientModules: () => {
+      return [path.resolve(__dirname, "../../client/client/index.js")];
     },
 
     async getDefaultCodeTranslationMessages() {
@@ -50,14 +48,6 @@ export default function DocusaurusSearchLocalPlugin(
         }
       }
       return {};
-    },
-
-    async contentLoaded({ actions: { addRoute } }: any) {
-      addRoute({
-        path: normalizeUrl([context.baseUrl, "search"]),
-        component: "@theme/SearchPage",
-        exact: true,
-      });
     },
   };
 }
